@@ -9,18 +9,18 @@ class Recipe(models.Model):
     yield_count = models.IntegerField()
     yield_type = models.CharField(max_length=256)
     user_id = models.ForeignKey(User)
-    created = models.DateField()
-    updated = models.DateField()
-    deleted = models.DateField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(null=True)
 
 
 class Activity(models.Model):
     user_id = models.ForeignKey(User)
     recipe_id = models.ForeignKey(Recipe)
-    created = models.DateField()
-    started = models.DateField()
-    completed = models.DateField()
-    oven_start = models.DateField()
+    started = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
+    completed = models.DateTimeField()
+    oven_start = models.DateTimeField()
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=256)
@@ -28,9 +28,9 @@ class Ingredient(models.Model):
     content = models.CharField(max_length=256)
     unit = models.CharField(max_length=256)
     quantity = models.DecimalField(decimal_places=2, max_digits=5)
-    created = models.DateField()
-    updated = models.DateField()
-    deleted = models.DateField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    deleted = models.DateTimeField(null=True)
 
 class Instruction(models.Model):
     recipe_id = models.ForeignKey(Recipe)
