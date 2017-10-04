@@ -4,6 +4,9 @@ from django.contrib.auth.models import User, Group
 from crumbproof.models import Recipe, Activity, Ingredient, Instruction
 from rest_framework import viewsets
 from crumbproof.serializers import UserSerializer, GroupSerializer, RecipeSerializer
+from rest_framework import permissions
+from crumbproof.permissions import IsOwnerOrReadOnly
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,6 +30,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     """
     queryset = Recipe.objects.all().order_by('name')
     serializer_class = RecipeSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
 
