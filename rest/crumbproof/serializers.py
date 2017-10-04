@@ -15,6 +15,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'name')
 
 class RecipeSerializer(serializers.HyperlinkedModelSerializer):
+    user_id = serializers.ReadOnlyField(source='user_id.username')
+
     class Meta:
         model = Recipe
         fields = ( 'url'
@@ -24,7 +26,7 @@ class RecipeSerializer(serializers.HyperlinkedModelSerializer):
                  , 'oven_temperature'
                  , 'yield_count'
                  , 'yield_type'
-                 , 'author'
+                 , 'user_id'
                  , 'live'
                  , 'created'
                  , 'updated'

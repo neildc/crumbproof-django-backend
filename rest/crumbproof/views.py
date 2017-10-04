@@ -27,3 +27,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     """
     queryset = Recipe.objects.all().order_by('name')
     serializer_class = RecipeSerializer
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
