@@ -26,7 +26,7 @@ class Activity(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=256)
-    recipe_id = models.ForeignKey(Recipe)
+    recipe_id = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
     content = models.CharField(max_length=256)
     unit = models.CharField(max_length=256)
     quantity = models.DecimalField(decimal_places=2, max_digits=5)
@@ -35,6 +35,6 @@ class Ingredient(models.Model):
     deleted = models.DateTimeField(null=True)
 
 class Instruction(models.Model):
-    recipe_id = models.ForeignKey(Recipe)
+    recipe_id = models.ForeignKey(Recipe, related_name='instructions', on_delete=models.CASCADE)
     step_number = models.IntegerField()
     content = models.CharField(max_length=256)
