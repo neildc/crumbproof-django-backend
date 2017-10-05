@@ -1,0 +1,142 @@
+# config
+
+:host = http://127.0.0.1:8000
+:token = 8c0400d91fccbd4a642209e4474a0e71cb7f1335
+
+:auth = Authorization: Token :token
+:json = Content-Type: application/json
+
+
+:headers = <<
+:auth
+:json
+
+#
+
+# Login
+
+POST :host/rest-auth/login/
+Content-Type: application/json
+
+{ "password" : "password123"
+, "username" : "user5"
+}
+
+### Response
+  {
+    "key": "7e5efc3b11ac5783d2fe2ebe8989c94312c36ce9"
+  }
+
+# Register
+:user = user7
+
+POST :host/rest-auth/registration/
+Content-Type: application/json
+
+{ "password1" : "password123"
+, "password2" : "password123"
+, "username" : ":user"
+}
+
+# Email is optional
+
+### Response
+  {
+    "key": "7e5efc3b11ac5783d2fe2ebe8989c94312c36ce9"
+  }
+
+
+# List users
+
+GET :host/users/
+:headers
+
+### Response
+  # HTTP/1.0 200 OK
+  {
+    "count": 3,
+    "next": null,
+    "previous": null,
+    "results": [
+      {
+        "url": "http://127.0.0.1:8000/users/3/",
+        "username": "user2",
+        "email": "user2@test.com",
+        "groups": []
+      },
+      ...
+    ]
+  }
+
+
+# List recipes
+GET :host/recipes/
+:headers
+
+# Recipe Detail
+
+:recipeId = 2
+
+GET :host/recipes/:recipeId/
+:headers
+
+# New Recipe
+#  - Must be authenticated
+
+POST :host/recipes/
+:headers
+
+{ "name" : "testRecipe"
+, "prep_time" : 20
+, "bake_time" : 20
+, "oven_temperature" : 300
+, "yield_count" : 20
+, "yield_type" : "Loaves"
+, "ingredients" : [
+    { "name": "ingredient1"
+    , "content" : "Bell Peper"
+    , "unit" : "Whole"
+    , "quantity": 1
+    },
+    { "name": "ingredient2"
+    , "content" : "Salt"
+    , "unit" : "Tablespoons"
+    , "quantity": 2
+    }
+  ]
+, "instructions" : [
+    { "step_number": 1
+    , "content": "Step1"
+    },
+    { "step_number": 2
+    , "content": "Step2"
+    }
+  ]
+}
+
+### Response
+  # HTTP/1.0 201 Created
+  {
+    "url": "http://127.0.0.1:8000/recipes/2/",
+    "name": "testRecipe",
+    "prep_time": 20,
+    "bake_time": 20,
+    "yield_count": 20,
+    "yield_type": "Loaves",
+    "user_id": "user2",
+    "created": "2017-10-04T05:28:45.467884Z",
+    "updated": "2017-10-04T05:28:45.467923Z",
+    "deleted": null
+  }
+
+#
+# Only the user that created the recipe can delete
+:adminRecipe = 11
+:recipeId = :adminRecipe
+
+DELETE :host/recipes/:recipeId/
+:auth
+
+#
+
+GET :host/ingredients/
