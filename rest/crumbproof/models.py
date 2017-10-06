@@ -37,4 +37,4 @@ class Ingredient(models.Model):
 class Instruction(models.Model):
     recipe_id = models.ForeignKey(Recipe, related_name='instructions', on_delete=models.CASCADE)
     step_number = models.IntegerField()
-    content = models.CharField(max_length=256)
+    content = models.CharField(max_length=1024)
