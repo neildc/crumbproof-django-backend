@@ -17,8 +17,13 @@ class Recipe(models.Model):
 
 
 class Activity(models.Model):
-    user_id = models.ForeignKey(User)
-    recipe_id = models.ForeignKey(Recipe)
+    user_id = models.ForeignKey(User, related_name='activities', on_delete=models.CASCADE)
+    recipe_id = models.ForeignKey( Recipe
+                                 , related_name='activities'
+                                 , on_delete=models.CASCADE
+                                 , null=True
+                                 )
+
     started = models.DateTimeField()
     created = models.DateTimeField(auto_now_add=True)
     completed = models.DateTimeField()
