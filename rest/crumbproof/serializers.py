@@ -15,6 +15,24 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         model = Group
         fields = ('url', 'name')
 
+class ActivitySerializer(serializers.ModelSerializer):
+    user_id = serializers.ReadOnlyField(source='user_id.username')
+    crumb_shot = Base64ImageField(required=False)
+
+    class Meta:
+        model = Activity
+        fields = ( 'id'
+                 , 'name'
+                 , 'user_id'
+                 , 'recipe_id'
+                 , 'started'
+                 , 'created'
+                 , 'completed'
+                 , 'oven_start'
+                 , 'oven_end'
+                 , 'crumb_shot'
+                 )
+
 class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:

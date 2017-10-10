@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from crumbproof.models import Recipe, Activity, Ingredient, Instruction
 from rest_framework import viewsets
-from crumbproof.serializers import UserSerializer, GroupSerializer, RecipeSerializer
+from crumbproof.serializers import *
 from rest_framework import permissions
 from crumbproof.permissions import IsOwnerOrReadOnly
 
@@ -24,6 +24,19 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+
+class ActivityViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Activitys to be viewed or edited.
+    """
+    queryset = Activity.objects.all().order_by('created')
+    serializer_class = ActivitySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user)
+
 class RecipeViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Recipes to be viewed or edited.
@@ -35,4 +48,3 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
-
