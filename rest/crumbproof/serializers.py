@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from crumbproof.models import Recipe, Activity, Ingredient, Instruction
+from drf_extra_fields.fields import Base64ImageField
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
