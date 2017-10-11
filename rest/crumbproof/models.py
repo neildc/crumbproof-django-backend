@@ -45,3 +45,4 @@ class Instruction(models.Model):
     recipe_id = models.ForeignKey(Recipe, related_name='instructions', on_delete=models.CASCADE)
     step_number = models.IntegerField()
     content = models.CharField(max_length=1024)
+    time_gap_to_next = models.IntegerField(null=True)

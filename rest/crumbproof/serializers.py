@@ -50,6 +50,7 @@ class InstructionSerializer(serializers.ModelSerializer):
         model = Instruction
         fields = ( 'step_number'
                  , 'content'
+                 , 'time_gap_to_next'
                  )
 
 class RecipeSerializer(serializers.ModelSerializer):
