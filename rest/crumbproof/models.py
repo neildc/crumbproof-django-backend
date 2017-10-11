@@ -24,7 +24,7 @@ class Activity(models.Model):
                                  , null=True
                                  )
     name = models.CharField(max_length=256)
-    crumb_shot = models.ImageField(upload_to='images', max_length=None, null=True)
+    crumb_shot = models.ImageField(upload_to='images', max_length=None)
     created = models.DateTimeField(auto_now_add=True)
     started = models.DateTimeField(null=True)
     completed = models.DateTimeField(null=True)
