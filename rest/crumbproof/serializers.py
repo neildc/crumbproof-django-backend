@@ -31,6 +31,7 @@ class ActivitySerializer(serializers.ModelSerializer):
                  , 'oven_start'
                  , 'oven_end'
                  , 'crumb_shot'
+                 , 'notes'
                  )
 
 class IngredientSerializer(serializers.ModelSerializer):

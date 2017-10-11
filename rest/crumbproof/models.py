@@ -30,6 +30,7 @@ class Activity(models.Model):
     completed = models.DateTimeField(null=True)
     oven_start = models.DateTimeField(null=True)
     oven_end = models.DateTimeField(null=True)
+    notes = models.CharField(max_length=3000, null=True)
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=256)
