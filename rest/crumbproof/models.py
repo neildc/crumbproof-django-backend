@@ -25,11 +25,11 @@ class Activity(models.Model):
                                  )
     name = models.CharField(max_length=256)
     crumb_shot = models.ImageField(upload_to='images', max_length=None, null=True)
-    started = models.DateTimeField()
     created = models.DateTimeField(auto_now_add=True)
-    completed = models.DateTimeField()
-    oven_start = models.DateTimeField()
-    oven_end = models.DateTimeField()
+    started = models.DateTimeField(null=True)
+    completed = models.DateTimeField(null=True)
+    oven_start = models.DateTimeField(null=True)
+    oven_end = models.DateTimeField(null=True)
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=256)
