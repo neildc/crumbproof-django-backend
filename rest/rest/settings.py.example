@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+(vxk6@2l8xr=fjp_qg4!6(m9at8(xrcz)srlzq2vhu*@4yul3'
+SECRET_KEY = ENTER_SECURITY_KEY_HERE
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost","192.168.0.13","127.0.0.1"]
 
 
 # Application definition
@@ -95,8 +95,12 @@ WSGI_APPLICATION = 'rest.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'crumbproof',
+        'USER': 'ENTER_USERNAME_HERE',
+        'PASSWORD': ENTER_PASSWORD_HERE,
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -146,5 +150,3 @@ SITE_ID = 1
 REST_SESSION_LOGIN = False
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-
