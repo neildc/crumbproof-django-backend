@@ -149,7 +149,30 @@ POST :host/recipes/:recipeId/favourite/
 POST :host/recipes/:recipeId/unfavourite/
 :auth
 
+# Activities that are linked to this recipe, most recent first
+:recipeId = 5
+
+GET :host/recipes/:recipeId/activity_history/
+
+  # Response (just a list of Activities)
+  [
+    {
+      "id": 5,
+      "name": "linked 2",
+      "user": "user7",
+      "recipe": 5,
+      "recipe_name": "It was the only flour they had",
+      "started": null,
+      "created": "2017-10-21T08:50:37.960182Z",
+      "completed": null,
+      "oven_start": null,
+      "oven_end": null,
+      "crumb_shot": "https://crumbproof-img.s3.amazonaws.com/media/images/1096639b-5e3.jpg",
+      "notes": null
+    },
 #
+
+
 GET :host/ingredients/
 
 # Activities

@@ -68,3 +68,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors,
                             status=status.HTTP_401_UNAUTHORIZED)
+
+    @detail_route(methods=['get'])
+    def activity_history(self, request, pk=None):
+        recipe = self.get_object()
+        history = recipe.activities.all().order_by('-created') #Most recent first
+        serializer = ActivitySerializer(history, many=True)
+        return Response(serializer.data)
