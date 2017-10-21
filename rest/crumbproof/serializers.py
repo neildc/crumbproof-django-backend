@@ -82,3 +82,10 @@ class RecipeSerializer(serializers.ModelSerializer):
             Instruction.objects.create(recipe_id=recipe, **j)
 
         return recipe
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    favourite_recipes = RecipeSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'favourite_recipes')

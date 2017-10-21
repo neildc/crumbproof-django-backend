@@ -137,6 +137,19 @@ DELETE :host/recipes/:recipeId/
 
 #
 
+# Add recipe to user favourites
+:recipeId = 1
+
+POST :host/recipes/:recipeId/favourite/
+:auth
+
+#
+:recipeId = 1
+
+POST :host/recipes/:recipeId/unfavourite/
+:auth
+
+#
 GET :host/ingredients/
 
 # Activities

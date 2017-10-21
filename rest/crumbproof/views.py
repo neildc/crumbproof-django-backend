@@ -1,11 +1,15 @@
 from django.shortcuts import render
 
-from django.contrib.auth.models import User, Group
-from crumbproof.models import Recipe, Activity, Ingredient, Instruction
+from crumbproof.models import Recipe, Activity, Ingredient, Instruction, User
 from rest_framework import viewsets
 from crumbproof.serializers import *
 from rest_framework import permissions
 from crumbproof.permissions import IsOwnerOrReadOnly
+
+from rest_framework.decorators import detail_route
+from rest_framework import status
+
+from rest_framework.response import Response
 
 
 
@@ -48,3 +52,25 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
+
+    @detail_route(methods=['post'])
+    def favourite(self, request, pk=None):
+        recipe = self.get_object()
+        if request.auth:
+            request.user.favourite_recipes.add(recipe)
+            request.user.save()
+            return Response({'status': 'favourite added'})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_401_UNAUTHORIZED)
+
+    @detail_route(methods=['post'])
+    def unfavourite(self, request, pk=None):
+        recipe = self.get_object()
+        if request.auth:
+            request.user.favourite_recipes.remove(recipe)
+            request.user.save()
+            return Response({'status': 'favourite removed'})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_401_UNAUTHORIZED)

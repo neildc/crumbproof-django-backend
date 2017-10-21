@@ -50,4 +50,4 @@ class Instruction(models.Model):
     time_gap_to_next = models.IntegerField(null=True)
 
 class User(AbstractUser):
-    pass
+    favourite_recipes = models.ManyToManyField(Recipe, related_name='favorited_by')
