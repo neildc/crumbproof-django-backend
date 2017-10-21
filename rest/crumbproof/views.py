@@ -39,7 +39,7 @@ class ActivityViewSet(viewsets.ModelViewSet):
                           IsOwnerOrReadOnly,)
 
     def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user)
+        serializer.save(user=self.request.user)
 
 class RecipeViewSet(viewsets.ModelViewSet):
     """
@@ -51,7 +51,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                           IsOwnerOrReadOnly,)
 
     def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user)
+        serializer.save(user=self.request.user)
 
     @detail_route(methods=['post'])
     def favourite(self, request, pk=None):

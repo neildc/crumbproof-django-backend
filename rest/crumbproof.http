@@ -121,7 +121,7 @@ POST :host/recipes/
     "bake_time": 20,
     "yield_count": 20,
     "yield_type": "Loaves",
-    "user_id": "user2",
+    "user": "user2",
     "created": "2017-10-04T05:28:45.467884Z",
     "updated": "2017-10-04T05:28:45.467923Z",
     "deleted": null
@@ -164,8 +164,8 @@ GET :host/activities/
         {
           "id": 1,
           "name": "Crusty bread",
-          "user_id": "user5",
-          "recipe_id": null,
+          "user": "user5",
+          "recipe": null,
           "started": "2017-10-04T05:28:45.467884Z",
           "created": "2017-10-09T05:46:54.071279Z",
           "completed": "2017-10-04T05:28:45.467884Z",

@@ -4,16 +4,16 @@ from drf_extra_fields.fields import Base64ImageField
 
 
 class ActivitySerializer(serializers.ModelSerializer):
-    user_id = serializers.ReadOnlyField(source='user_id.username')
+    user = serializers.ReadOnlyField(source='user.username')
     crumb_shot = Base64ImageField(required=False)
-    recipe_name = serializers.ReadOnlyField(source='recipe_id.name')
+    recipe_name = serializers.ReadOnlyField(source='recipe.name')
 
     class Meta:
         model = Activity
         fields = ( 'id'
                  , 'name'
-                 , 'user_id'
-                 , 'recipe_id'
+                 , 'user'
+                 , 'recipe'
                  , 'recipe_name'
                  , 'started'
                  , 'created'
@@ -43,8 +43,9 @@ class InstructionSerializer(serializers.ModelSerializer):
                  , 'time_gap_to_next'
                  )
 
+
 class RecipeSerializer(serializers.ModelSerializer):
-    user_id = serializers.ReadOnlyField(source='user_id.username')
+    user = serializers.ReadOnlyField(source='user.username')
     ingredients = IngredientSerializer(many=True)
     instructions = InstructionSerializer(many=True)
 
@@ -57,7 +58,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                  , 'oven_temperature'
                  , 'yield_count'
                  , 'yield_type'
-                 , 'user_id'
+                 , 'user'
                  , 'live'
                  , 'ingredients'
                  , 'instructions'
@@ -76,14 +77,14 @@ class RecipeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         ingredients_data = validated_data.pop('ingredients')
         instructions_data = validated_data.pop('instructions')
-        recipe = Recipe.objects.create(**validated_data)
+        new_recipe = Recipe.objects.create(**validated_data)
         for i in ingredients_data:
-            Ingredient.objects.create(recipe_id=recipe, **i)
+            Ingredient.objects.create(recipe=new_recipe, **i)
 
         for j in instructions_data:
-            Instruction.objects.create(recipe_id=recipe, **j)
+            Instruction.objects.create(recipe=new_recipe, **j)
 
-        return recipe
+        return new_recipe
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     favourite_recipes = RecipeSerializer(many=True)
