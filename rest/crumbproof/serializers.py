@@ -6,6 +6,7 @@ from drf_extra_fields.fields import Base64ImageField
 class ActivitySerializer(serializers.ModelSerializer):
     user_id = serializers.ReadOnlyField(source='user_id.username')
     crumb_shot = Base64ImageField(required=False)
+    recipe_name = serializers.ReadOnlyField(source='recipe_id.name')
 
     class Meta:
         model = Activity
@@ -13,6 +14,7 @@ class ActivitySerializer(serializers.ModelSerializer):
                  , 'name'
                  , 'user_id'
                  , 'recipe_id'
+                 , 'recipe_name'
                  , 'started'
                  , 'created'
                  , 'completed'
