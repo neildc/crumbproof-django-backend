@@ -200,6 +200,35 @@ GET :host/activities/
     }
 
 #
+:recipeId = 5
+GET :host/recipes/:recipeId/activities/
+
+    # Response
+    {
+      "count": 31,
+      "next": "http://127.0.0.1:2500/recipes/5/activities/?page=2",
+      "previous": null,
+      "recipe": "5",
+      "results": [
+        {
+          "id": 32,
+          "name": "Test bread",
+          "user": "user1",
+          "recipe": 5,
+          "recipe_name": "It was the only flour they had",
+          "started": "2017-10-04T05:28:45.467884Z",
+          "created": "2017-10-24T05:33:02.639957Z",
+          "completed": "2017-10-04T05:28:45.467884Z",
+          "oven_start": "2017-10-04T05:28:45.467884Z",
+          "oven_end": "2017-10-04T05:28:45.467884Z",
+          "crumb_shot": "https://crumbproof-img.s3.amazonaws.com/media/images/51836251-db2.png",
+          "notes": null
+        },
+        ....
+      ]
+    }
+
+#
 POST :host/activities/
 :headers
 
