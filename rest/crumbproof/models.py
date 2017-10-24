@@ -1,7 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.conf import settings
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
+
 class Recipe(models.Model):
     name = models.CharField(max_length=256)
     prep_time = models.IntegerField()
@@ -9,7 +11,7 @@ class Recipe(models.Model):
     oven_temperature = models.IntegerField()
     yield_count = models.IntegerField()
     yield_type = models.CharField(max_length=256)
-    user_id = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     live = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -17,8 +19,8 @@ class Recipe(models.Model):
 
 
 class Activity(models.Model):
-    user_id = models.ForeignKey(User, related_name='activities', on_delete=models.CASCADE)
-    recipe_id = models.ForeignKey( Recipe
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='activities', on_delete=models.CASCADE)
+    recipe = models.ForeignKey( Recipe
                                  , related_name='activities'
                                  , on_delete=models.CASCADE
                                  , null=True
@@ -34,7 +36,7 @@ class Activity(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=256)
-    recipe_id = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
     unit = models.CharField(max_length=256)
     quantity = models.DecimalField(decimal_places=2, max_digits=5)
     created = models.DateTimeField(auto_now_add=True)
@@ -42,7 +44,10 @@ class Ingredient(models.Model):
     deleted = models.DateTimeField(null=True)
 
 class Instruction(models.Model):
-    recipe_id = models.ForeignKey(Recipe, related_name='instructions', on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name='instructions', on_delete=models.CASCADE)
     step_number = models.IntegerField()
     content = models.CharField(max_length=1024)
     time_gap_to_next = models.IntegerField(null=True)
+
+class User(AbstractUser):
+    favourite_recipes = models.ManyToManyField(Recipe, related_name='favorited_by')
