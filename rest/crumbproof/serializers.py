@@ -53,7 +53,6 @@ class RecipeSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = ( 'name'
                  , 'id'
-                 , 'prep_time'
                  , 'bake_time'
                  , 'oven_temperature'
                  , 'yield_count'

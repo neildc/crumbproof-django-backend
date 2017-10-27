@@ -95,7 +95,6 @@ POST :host/recipes/
 
 {
   "name": "It was the only flour they had",
-  "prep_time": 2,
   "bake_time": 40,
   "oven_temperature": 250,
   "yield_count": 1,
@@ -201,7 +200,6 @@ POST :host/recipes/
   {
     "url": "http://127.0.0.1:8000/recipes/2/",
     "name": "testRecipe",
-    "prep_time": 20,
     "bake_time": 20,
     "yield_count": 20,
     "yield_type": "Loaves",

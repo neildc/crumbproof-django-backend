@@ -6,7 +6,6 @@ from django.contrib.auth.models import AbstractUser
 
 class Recipe(models.Model):
     name = models.CharField(max_length=256)
-    prep_time = models.IntegerField()
     bake_time = models.IntegerField()
     oven_temperature = models.IntegerField()
     yield_count = models.IntegerField()
