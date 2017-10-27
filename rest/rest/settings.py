@@ -19,14 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ENTER_SECURITY_KEY_HERE
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["localhost","192.168.0.13","127.0.0.1"]
-
 
 # Application definition
 
@@ -90,19 +82,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'rest.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'crumbproof',
-        'USER': 'ENTER_USERNAME_HERE',
-        'PASSWORD': ENTER_PASSWORD_HERE,
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
 
 
 # Password validation
@@ -137,17 +117,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 MEDIA_URL = '/media/'
 
-AWS_ACCESS_KEY_ID = NEED THIS
-AWS_SECRET_ACCESS_KEY = NEED THIS
-AWS_STORAGE_BUCKET_NAME = NEED THIS
+AWS_STORAGE_BUCKET_NAME = 'bucket_name'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
@@ -163,3 +139,7 @@ SITE_ID = 1
 REST_SESSION_LOGIN = False
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+AUTH_USER_MODEL = 'crumbproof.User'
+
+from .settings_example import *
