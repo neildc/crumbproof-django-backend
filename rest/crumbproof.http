@@ -2,8 +2,8 @@
 :local = http://127.0.0.1:2500
 :prod = https://flour.crumbproof.com
 
-:localToken = ba4f189f1852f957e4723f3b2777310ea459ea5d
-:prodToken = b2e8127a4a614a7ee61d8cb65b1eb31f42379545
+:localToken = 7d63fb3c8e4fa4fdd573e2db21b21891c0f2480b
+:prodToken = c880d422b641b8d9a2de3570248f1d6787a806a0
 
 :host = :local
 :token = :localToken
@@ -94,106 +94,110 @@ POST :host/recipes/
 :headers
 
 {
-  "name": "It was the only flour they had",
-  "bake_time": 40,
-  "oven_temperature": 250,
-  "yield_count": 1,
-  "yield_type": "Loaf",
-  "ingredients": [
-    {
-      "name": "Lauke Wholegrain Breadmix",
-      "quantity": 590,
-      "unit": "grams"
-    },
-    {
-      "name": "Water",
-      "quantity": 360,
-      "unit": "mL"
-    },
-    {
-      "name": "Yeast",
-      "quantity": 3,
-      "unit": "Teaspoons"
+  "diff" : null,
+  "base_recipe": null,
+  "parent": null,
+  "data" : {
+    "name": "It was the only flour they had",
+    "bake_time": 40,
+    "oven_temperature": 250,
+    "yield_count": 1,
+    "yield_type": "Loaf",
+    "ingredients": [
+      {
+        "name": "Lauke Wholegrain Breadmix",
+        "quantity": 590,
+        "unit": "grams"
+      },
+      {
+        "name": "Water",
+        "quantity": 360,
+        "unit": "mL"
+      },
+      {
+        "name": "Yeast",
+        "quantity": 3,
+        "unit": "Teaspoons"
+      }
+    ],
+    "instructions": [
+      {
+        "content": "Dump all ingredients into the bowl",
+        "time_gap_to_next": 0,
+        "step_number": 1
+      },
+      {
+        "content": "Mix everything together",
+        "time_gap_to_next": 5,
+        "step_number": 2
+      },
+      {
+        "content": "Knead",
+        "time_gap_to_next": 15,
+        "step_number": 3
+      },
+      {
+        "content": "Place into a cling wrapped container",
+        "step_number": 4
+      },
+      {
+        "content": "Proof",
+        "time_gap_to_next": 30,
+        "step_number": 5
+      },
+      {
+        "content": "Fold",
+        "step_number": 6
+      },
+      {
+        "content": "Proof",
+        "time_gap_to_next": 30,
+        "step_number": 7
+      },
+      {
+        "content": "Fold",
+        "time_gap_to_next": 0,
+        "step_number": 8
+      },
+      {
+        "content": "Proof",
+        "time_gap_to_next": 60,
+        "step_number": 9
+      },
+      {
+        "content": "Preheat oven and dutch oven",
+        "step_number": 10
+      },
+      {
+        "content": "Shape dough",
+        "step_number": 11
+      },
+      {
+        "content": "Final proof",
+        "time_gap_to_next": 25,
+        "step_number": 12
+      },
+      {
+        "time_gap_to_next": 30,
+        "content": "Start baking with lid on",
+        "step_number": 13
+      },
+      {
+        "content": "Remove lid and continue baking",
+        "time_gap_to_next": 10,
+        "step_number": 14
+      },
+      {
+        "content": "Remove from oven and rest",
+        "time_gap_to_next": 10,
+        "step_number": 15
+      },
+      {
+        "content": "EAT ALL THE BREAD",
+        "step_number": 16
+      }
+    ]
     }
-  ],
-  "instructions": [
-    {
-      "content": "Dump all ingredients into the bowl",
-      "time_gap_to_next": 0,
-      "step_number": 1
-    },
-    {
-      "content": "Mix everything together",
-      "time_gap_to_next": 5,
-      "step_number": 2
-    },
-    {
-      "content": "Knead",
-      "time_gap_to_next": 15,
-      "step_number": 3
-    },
-    {
-      "content": "Place into a cling wrapped container",
-      "step_number": 4
-    },
-    {
-      "content": "Proof",
-      "time_gap_to_next": 30,
-      "step_number": 5
-    },
-    {
-      "content": "Fold",
-      "time_gap_to_next": 0,
-      "step_number": 6
-    },
-    {
-      "content": "Proof",
-      "time_gap_to_next": 30,
-      "step_number": 7
-    },
-    {
-      "content": "Fold",
-      "time_gap_to_next": 0,
-      "step_number": 8
-    },
-    {
-      "content": "Proof",
-      "time_gap_to_next": 60,
-      "step_number": 9
-    },
-    {
-      "content": "Preheat oven and dutch oven",
-      "step_number": 10
-    },
-    {
-      "content": "Shape dough",
-      "step_number": 11
-    },
-    {
-      "content": "Final proof",
-      "time_gap_to_next": 25,
-      "step_number": 12
-    },
-    {
-      "time_gap_to_next": 30,
-      "content": "Start baking with lid on",
-      "step_number": 13
-    },
-    {
-      "content": "Remove lid and continue baking",
-      "time_gap_to_next": 10,
-      "step_number": 14
-    },
-    {
-      "content": "Remove from oven and rest",
-      "time_gap_to_next": 10,
-      "step_number": 15
-    },
-    {
-      "content": "EAT ALL THE BREAD",
-      "step_number": 16
-    }
-  ]
 }
 ### Response
   # HTTP/1.0 201 Created

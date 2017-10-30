@@ -1,12 +1,44 @@
 from rest_framework import serializers
-from crumbproof.models import Recipe, Activity, Ingredient, Instruction, User
+from crumbproof.models import Recipe, Activity, User
 from drf_extra_fields.fields import Base64ImageField
+import uuid
+
+
+class RecipeSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Recipe
+        fields = ( 'id'
+                 , 'user'
+                 , 'data'
+                 , 'diff'
+                 , 'base_recipe'
+                 , 'parent'
+                 , 'created'
+                 )
+
+    def addUUIDs(self, array):
+        for obj in array:
+            if 'id' not in obj:
+                obj['id'] = str(uuid.uuid4())
+
+    def create(self, validated_data):
+        recipe_data = validated_data.pop('data')
+        recipe_diff = validated_data.pop('diff')
+
+        self.addUUIDs(recipe_data['instructions'])
+        self.addUUIDs(recipe_data['ingredients'])
+
+        new_recipe = Recipe.objects.create(data=recipe_data, diff=recipe_diff,**validated_data)
+        return new_recipe
 
 
 class ActivitySerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     crumb_shot = Base64ImageField(required=False)
-    recipe_name = serializers.ReadOnlyField(source='recipe.name')
+    recipe = RecipeSerializer()
+
 
     class Meta:
         model = Activity
@@ -14,7 +46,6 @@ class ActivitySerializer(serializers.ModelSerializer):
                  , 'name'
                  , 'user'
                  , 'recipe'
-                 , 'recipe_name'
                  , 'started'
                  , 'created'
                  , 'completed'
@@ -24,66 +55,32 @@ class ActivitySerializer(serializers.ModelSerializer):
                  , 'notes'
                  )
 
-class IngredientSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Ingredient
-        fields = ( 'name'
-                 , 'id'
-                 , 'unit'
-                 , 'quantity'
-                 )
-
-class InstructionSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Instruction
-        fields = ( 'step_number'
-                 , 'content'
-                 , 'time_gap_to_next'
-                 )
-
-
-class RecipeSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
-    ingredients = IngredientSerializer(many=True)
-    instructions = InstructionSerializer(many=True)
-
-    class Meta:
-        model = Recipe
-        fields = ( 'name'
-                 , 'id'
-                 , 'bake_time'
-                 , 'oven_temperature'
-                 , 'yield_count'
-                 , 'yield_type'
-                 , 'user'
-                 , 'live'
-                 , 'ingredients'
-                 , 'instructions'
-                 )
-
-    def validate_ingredients(self, value):
-            if not value:
-                raise serializers.ValidationError("Must provide at least 1 ingredient")
+    def validate_recipe(self, value):
             return value
 
-    def validate_instructions(self, value):
-            if not value:
-                raise serializers.ValidationError("Must provide at least 1 instruction")
-            return value
 
     def create(self, validated_data):
-        ingredients_data = validated_data.pop('ingredients')
-        instructions_data = validated_data.pop('instructions')
-        new_recipe = Recipe.objects.create(**validated_data)
-        for i in ingredients_data:
-            Ingredient.objects.create(recipe=new_recipe, **i)
+        user =  self.context['request'].user
+        recipe_data = validated_data.pop('recipe')
 
-        for j in instructions_data:
-            Instruction.objects.create(recipe=new_recipe, **j)
+        for k in ['instructions', 'ingredients']:
+            diff = recipe_data['diff'][k]
+            if diff and diff['added']:
+                for obj in recipe_data['data'][k]:
+                    # Only newly added objects won't have a UUID
+                    if 'id' not in obj:
+                        uuid_str = str(uuid.uuid4())
+                        # The object added in the diff and data object
+                        # should have the same UUID
+                        for added in diff['added']:
+                            if obj == added:
+                                added['id'] = uuid_str
+                                obj['id'] = uuid_str
 
-        return new_recipe
+
+        new_recipe = Recipe.objects.create(user=user,**recipe_data)
+        new_activity = Activity.objects.create(recipe=new_recipe,**validated_data)
+        return new_activity
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     favourite_recipes = RecipeSerializer(many=True)

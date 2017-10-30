@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from crumbproof.models import Recipe, Activity, Ingredient, Instruction, User
+from crumbproof.models import Recipe, Activity, User
 from rest_framework import viewsets, generics
 from crumbproof.serializers import *
 from rest_framework import permissions
@@ -21,8 +21,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-
-
 class ActivityViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows Activitys to be viewed or edited.
@@ -34,6 +32,7 @@ class ActivityViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
 
 class RecipeViewSet(viewsets.ModelViewSet):
     """
