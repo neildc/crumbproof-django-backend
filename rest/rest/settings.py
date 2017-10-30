@@ -122,7 +122,7 @@ USE_TZ = True
 
 MEDIA_URL = '/media/'
 
-AWS_STORAGE_BUCKET_NAME = 'bucket_name'
+AWS_STORAGE_BUCKET_NAME = 'crumbproof-img'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
