@@ -5,7 +5,44 @@ from crumbproof.models import Activity, Recipe
 from drf_extra_fields.fields import Base64ImageField
 import uuid
 
+class RecipeField(serializers.PrimaryKeyRelatedField):
+    def to_representation(self, value):
+        pk = super(RecipeField, self).to_representation(value)
+        try:
+            item = Recipe.objects.get(pk=pk)
+            serializer = RecipeSerializer(item)
+            return serializer.data
+        except Recipe.DoesNotExist:
+            return None
+
+    def get_choices(self, cutoff=None):
+        queryset = self.get_queryset()
+        if queryset is None:
+            return {}
+
+        return OrderedDict([(item.id, str(item)) for item in queryset])
+
+
+#
 class ActivitySerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    crumb_shot = Base64ImageField(required=False)
+    recipe = RecipeField(required=False, queryset=Recipe.objects.all())
+
+    class Meta:
+        model = Activity
+        fields = ( 'id'
+                 , 'name'
+                 , 'user'
+                 , 'recipe'
+                 , 'started'
+                 , 'created'
+                 , 'completed'
+                 , 'oven_start'
+                 , 'oven_end'
+                 , 'crumb_shot'
+                 , 'notes'
+                 )
 
 
 class ActivityWithModifiedRecipeSerializer(serializers.ModelSerializer):
