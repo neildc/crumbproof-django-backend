@@ -4,7 +4,6 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import JSONField
 
-
 class Recipe(models.Model):
     name = models.CharField(max_length=256)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)

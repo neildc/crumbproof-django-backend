@@ -1,40 +1,51 @@
 from rest_framework import serializers
-from crumbproof.models import Recipe, Activity, User
+from .recipe import RecipeSerializer
+from .user import UserSerializer
+from crumbproof.models import Activity, Recipe
 from drf_extra_fields.fields import Base64ImageField
 import uuid
 
+class RecipeField(serializers.PrimaryKeyRelatedField):
+    def to_representation(self, value):
+        pk = super(RecipeField, self).to_representation(value)
+        try:
+            item = Recipe.objects.get(pk=pk)
+            serializer = RecipeSerializer(item)
+            return serializer.data
+        except Recipe.DoesNotExist:
+            return None
 
-class RecipeSerializer(serializers.ModelSerializer):
+    def get_choices(self, cutoff=None):
+        queryset = self.get_queryset()
+        if queryset is None:
+            return {}
+
+        return OrderedDict([(item.id, str(item)) for item in queryset])
+
+
+#
+class ActivitySerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
+    crumb_shot = Base64ImageField(required=False)
+    recipe = RecipeField(required=False, queryset=Recipe.objects.all())
 
     class Meta:
-        model = Recipe
+        model = Activity
         fields = ( 'id'
+                 , 'name'
                  , 'user'
-                 , 'data'
-                 , 'diff'
-                 , 'base_recipe'
-                 , 'parent'
+                 , 'recipe'
+                 , 'started'
                  , 'created'
+                 , 'completed'
+                 , 'oven_start'
+                 , 'oven_end'
+                 , 'crumb_shot'
+                 , 'notes'
                  )
 
-    def addUUIDs(self, array):
-        for obj in array:
-            if 'id' not in obj:
-                obj['id'] = str(uuid.uuid4())
 
-    def create(self, validated_data):
-        recipe_data = validated_data.pop('data')
-        recipe_diff = validated_data.pop('diff')
-
-        self.addUUIDs(recipe_data['instructions'])
-        self.addUUIDs(recipe_data['ingredients'])
-
-        new_recipe = Recipe.objects.create(data=recipe_data, diff=recipe_diff,**validated_data)
-        return new_recipe
-
-
-class ActivitySerializer(serializers.ModelSerializer):
+class ActivityWithModifiedRecipeSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     crumb_shot = Base64ImageField(required=False)
     recipe = RecipeSerializer()
@@ -81,10 +92,3 @@ class ActivitySerializer(serializers.ModelSerializer):
         new_recipe = Recipe.objects.create(user=user,**recipe_data)
         new_activity = Activity.objects.create(recipe=new_recipe,**validated_data)
         return new_activity
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    favourite_recipes = RecipeSerializer(many=True)
-
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'favourite_recipes')

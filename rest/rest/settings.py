@@ -147,4 +147,4 @@ GRAPHENE = {
     'SCHEMA': 'crumbproof.graphene_schema.schema'
 }
 
-from .settings_local import *
+from .settings_example import *
