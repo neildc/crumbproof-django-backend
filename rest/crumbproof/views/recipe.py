@@ -1,38 +1,10 @@
-from django.shortcuts import render
+from rest_framework import viewsets, generics
+from rest_framework import permissions
+from rest_framework.decorators import detail_route
 
 from crumbproof.models import Recipe, Activity, User
-from rest_framework import viewsets, generics
-from crumbproof.serializers import *
-from rest_framework import permissions
+from crumbproof.serializers import RecipeSerializer, ActivitySerializer
 from crumbproof.permissions import IsOwnerOrReadOnly
-
-from rest_framework.decorators import detail_route
-from rest_framework import status
-
-from rest_framework.response import Response
-
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-
-
-class ActivityViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows Activitys to be viewed or edited.
-    """
-    queryset = Activity.objects.all().order_by('-created')
-    serializer_class = ActivitySerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 
 class RecipeViewSet(viewsets.ModelViewSet):
     """
@@ -74,6 +46,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         history = recipe.activities.all().order_by('-created') #Most recent first
         serializer = ActivitySerializer(history, many=True)
         return Response(serializer.data)
+
 
 class RecipeActivities(generics.ListAPIView):
     serializer_class = ActivitySerializer
