@@ -1,12 +1,14 @@
 from rest_framework import serializers
 from .recipe import RecipeSerializer
 from .user import UserSerializer
-from crumbproof.models import Activity
-from crumbproof.models import Activity
+from crumbproof.models import Activity, Recipe
 from drf_extra_fields.fields import Base64ImageField
 import uuid
 
 class ActivitySerializer(serializers.ModelSerializer):
+
+
+class ActivityWithModifiedRecipeSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     crumb_shot = Base64ImageField(required=False)
     recipe = RecipeSerializer()

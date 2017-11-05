@@ -1,8 +1,11 @@
 from rest_framework import viewsets
+from rest_framework import generics
 from rest_framework import permissions
 
 from crumbproof.models import Activity
 from crumbproof.serializers import ActivitySerializer
+from crumbproof.serializers import ActivityWithModifiedRecipeSerializer
+
 from crumbproof.permissions import IsOwnerOrReadOnly
 
 class ActivityViewSet(viewsets.ModelViewSet):
@@ -16,3 +19,7 @@ class ActivityViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class CreateActivityWithModifiedRecipe(generics.CreateAPIView):
+    queryset = Activity.objects.all()
+    serializer_class = ActivityWithModifiedRecipeSerializer

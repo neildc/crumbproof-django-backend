@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    url('^recipes/(?P<recipe>.+)/activities/$', views.RecipeActivities.as_view())
+    url('^recipes/(?P<recipe>.+)/activities/$', views.RecipeActivities.as_view()),
+    url(r'^activities/modified_recipe/$', views.CreateActivityWithModifiedRecipe.as_view()),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
