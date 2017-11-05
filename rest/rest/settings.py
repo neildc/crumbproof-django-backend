@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'corsheaders',
     'crumbproof',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -141,5 +142,9 @@ REST_SESSION_LOGIN = False
 CORS_ORIGIN_ALLOW_ALL = True
 
 AUTH_USER_MODEL = 'crumbproof.User'
+
+GRAPHENE = {
+    'SCHEMA': 'crumbproof.graphene_schema.schema'
+}
 
 from .settings_example import *

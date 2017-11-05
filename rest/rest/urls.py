@@ -20,6 +20,9 @@ from crumbproof import views
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.conf.urls.static import static
+from graphene_django.views import GraphQLView
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 router = routers.DefaultRouter()
@@ -35,5 +38,7 @@ urlpatterns = [
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url('^recipes/(?P<recipe>.+)/activities/$', views.RecipeActivities.as_view()),
     url(r'^activities/modified_recipe/$', views.CreateActivityWithModifiedRecipe.as_view()),
+    url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
