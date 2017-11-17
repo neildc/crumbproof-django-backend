@@ -333,6 +333,19 @@ POST :host/activities/
   "crumb_shot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
 }
 
+# Save web push subscription details for a logged in user
+POST :host/user/web_push_subscription/$
+:headers
+{
+  "endpoint": "https://fcm.googleapis.com/fcm/send/cuJuf4Z-qqM:APA91bGM0oz4W-yMbg6LVJT_ffZVrfEfh7t7YRk8bS4XrIn5QeZVxNC9mpsClgd0vgKUWdA3Y4jidPR9gUM-u-zGco354cj8S06_JTGLQgrD04QSSAcflKsQp_y82hA2F94dMq04BjN6",
+  "expirationTime": null,
+  "keys": {
+    "p256dh": "BCKAOCaOkqwMmATzkiYUdEV3I9prEikQ3MWJ4mSYf6B9bmrePTneBI6b2jh_vRu4fRxiB7JRgA-wA4mQ_VOwbzU=",
+    "auth": "YnYxWPuvwY8a1QXS1WGd3Q=="
+  }
+}
+
+
 #
 
 # TEST

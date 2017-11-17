@@ -33,5 +33,15 @@ class Activity(models.Model):
     oven_end = models.DateTimeField(null=True)
     notes = models.CharField(max_length=3000, null=True)
 
+class ScheduledPushNotification(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name='scheduled_push_notifications',
+                             on_delete=models.CASCADE)
+
+    launch_time = models.DateTimeField()
+    data = JSONField();
+
+
 class User(AbstractUser):
     favourite_recipes = models.ManyToManyField(Recipe, related_name='favorited_by')
+    push_subscription = JSONField(default=dict())
