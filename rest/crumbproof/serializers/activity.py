@@ -1,29 +1,10 @@
 from rest_framework import serializers
-from .recipe import RecipeSerializer
+from .recipe import RecipeSerializer, RecipeField
 from .user import UserSerializer
 from crumbproof.models import Activity, Recipe
 from drf_extra_fields.fields import Base64ImageField
 import uuid
 
-class RecipeField(serializers.PrimaryKeyRelatedField):
-    def to_representation(self, value):
-        pk = super(RecipeField, self).to_representation(value)
-        try:
-            item = Recipe.objects.get(pk=pk)
-            serializer = RecipeSerializer(item)
-            return serializer.data
-        except Recipe.DoesNotExist:
-            return None
-
-    def get_choices(self, cutoff=None):
-        queryset = self.get_queryset()
-        if queryset is None:
-            return {}
-
-        return OrderedDict([(item.id, str(item)) for item in queryset])
-
-
-#
 class ActivitySerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     crumb_shot = Base64ImageField(required=False)
