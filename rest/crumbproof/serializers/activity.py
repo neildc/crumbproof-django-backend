@@ -71,5 +71,5 @@ class ActivityWithModifiedRecipeSerializer(serializers.ModelSerializer):
 
 
         new_recipe = Recipe.objects.create(user=user,**recipe_data)
-        new_activity = Activity.objects.create(recipe=new_recipe,**validated_data)
+        new_activity = Activity.objects.create(user=user, recipe=new_recipe,**validated_data)
         return new_activity

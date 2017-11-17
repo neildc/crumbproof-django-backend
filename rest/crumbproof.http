@@ -346,8 +346,97 @@ POST :host/user/web_push_subscription/$
 }
 
 
-#
+# Create an activity in progress
 
+POST :host/activity/live/start/
+:headers
+{
+  "recipe" : 1
+}
+
+# Delete the activity in progress for the current user
+DELETE :host/activity/live/
+:auth
+
+# Get the users activity in progress
+GET :host/activity/live/
+:auth
+
+  # Resp
+  {
+    "id": 44,
+    "user": "user1",
+    "current_step": 17,
+    "start_times": {
+      "d056221d-2403-4e1e-af6b-2047dc20fa2b": "2017-11-17 00:48:48.641964+00:00"
+    },
+    "end_times": {
+      "08bde909-e991-4297-9d3f-366c07f0db5d": "2017-11-17 00:47:10.858343+00:00",
+      "17c6a1e3-a9a6-4db0-b3ad-e01beb82f3ff": "2017-11-17 00:51:13.566534+00:00",
+      "1cae6ce9-2fd8-43ac-99b7-d5f67033ff00": "2017-11-17 00:51:07.831382+00:00",
+    },
+    "recipe": {
+      "id": 5,
+      "user": "user1",
+      "data": {
+        "name": "The Saturday 75% Whole Wheat Bread",
+        "credits": "Flour water salt yeast by Ken Forkish",
+        "bake_time": 50,
+        "yield_type": "Loaves",
+        "ingredients": [
+          {
+            "id": "eced125b-b723-445e-bc0b-80e361afac89",
+            "name": "Whole wheat flour",
+            "unit": "g",
+            "quantity": 750
+          },
+          ....
+        ],
+        "yield_count": 2,
+        "instructions": [
+          {
+            "id": "08bde909-e991-4297-9d3f-366c07f0db5d",
+            "content": "Mix the all the flour and water"
+          },
+          {
+            "id": "6d82d310-50a3-4fbb-90be-8fa418c476bf",
+            "content": "Remove from oven and rest",
+            "time_gap_to_next": 20
+          },
+          ...
+        ],
+        "oven_temperature": 245
+      },
+      "diff": null,
+      "base_recipe": null,
+      "parent": null,
+      "created": "2017-10-31T22:18:58.628723Z"
+    }
+  }
+#
+POST :host/activity/live/next_step/
+:auth
+
+{} // empty body
+
+  # Response
+  {
+    "end_times": {
+      "08bde909-e991-4297-9d3f-366c07f0db5d": "2017-11-17 08:57:14.735657+00:00"
+    },
+    "current_step": 1 // 0 indexed
+  }#
+POST :host/activity/live/start_timer/
+:auth
+
+{} // empty body
+
+  #Response
+  {
+    "start_times": {
+      "8576e944-9878-4c2f-9dd4-950a7009fdf7": "2017-11-17T08:58:34.976729Z"
+    }
+  }
 # TEST
 GET :host/user_profiles/
 :headers

@@ -20,10 +20,10 @@ class Activity(models.Model):
                              related_name='activities',
                              on_delete=models.CASCADE)
 
-    recipe = models.ForeignKey( Recipe
-                                 , related_name='activities'
-                                 , null=True
-                                 )
+    recipe = models.ForeignKey( Recipe,
+                                related_name='activities',
+                                null=True)
+
     name = models.CharField(max_length=256)
     crumb_shot = models.ImageField(upload_to='images', max_length=None)
     created = models.DateTimeField(auto_now_add=True)
@@ -32,6 +32,18 @@ class Activity(models.Model):
     oven_start = models.DateTimeField(null=True)
     oven_end = models.DateTimeField(null=True)
     notes = models.CharField(max_length=3000, null=True)
+
+
+class ActivityInProgress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name='activity_in_progress',
+                             on_delete=models.CASCADE)
+
+    recipe = models.ForeignKey(Recipe)
+    current_step = models.IntegerField(default=0)
+    start_times = JSONField(default=dict())
+    end_times = JSONField(default=dict())
+
 
 class ScheduledPushNotification(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,

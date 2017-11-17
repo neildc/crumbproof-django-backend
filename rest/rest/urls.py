@@ -39,6 +39,10 @@ urlpatterns = [
     url(r'^user/web_push_subscription/$', views.saveWebPushSubscription),
     url('^recipes/(?P<recipe>.+)/activities/$', views.RecipeActivities.as_view()),
     url(r'^activities/modified_recipe/$', views.CreateActivityWithModifiedRecipe.as_view()),
+    url(r'^activity/live/$', views.LiveActivity.as_view()),
+    url(r'^activity/live/start/$', views.LiveActivityStart.as_view()),
+    url(r'^activity/live/next_step/$', views.liveActivityNextStep),
+    url(r'^activity/live/start_timer/$', views.liveActivityStartTimer),
     url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))),
 
 
