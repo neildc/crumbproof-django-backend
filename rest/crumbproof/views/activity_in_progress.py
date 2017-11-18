@@ -73,6 +73,14 @@ def liveActivityNextStep(request):
         }
     )
 
+def isLastInstruction(activity):
+    curr_step = activity.current_step
+    numInstructions = len(activity.recipe.data['instructions'])
+
+    return curr_step + 1 >= numInstructions
+
+
+
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def liveActivityStartTimer(request):
@@ -90,9 +98,20 @@ def liveActivityStartTimer(request):
         launch_time = time_now.replace(microsecond=0,second=0) \
                       + timedelta(minutes=instruction['time_gap_to_next'])
 
+        if isLastInstruction(activity):
+            body = 'Final step is complete'
+        else:
+            next_instruction = getInstruction(activity, curr_step + 1)
+            body = 'Next step: ' + next_instruction['content']
+
+        data = {
+            'body': body,
+            'current_step' : curr_step,
+            'timestamp': str(launch_time)
+        }
         push = ScheduledPushNotification(launch_time=launch_time,
-                                         user=request.user,
-                                         data="Time is done")
+                                        user=request.user,
+                                        data=data)
 
         push.save()
 
