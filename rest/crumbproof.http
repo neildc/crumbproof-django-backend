@@ -251,8 +251,6 @@ GET :host/recipes/:recipeId/activity_history/
       "started": null,
       "created": "2017-10-21T08:50:37.960182Z",
       "completed": null,
-      "oven_start": null,
-      "oven_end": null,
       "crumb_shot": "https://crumbproof-img.s3.amazonaws.com/media/images/1096639b-5e3.jpg",
       "notes": null
     },
@@ -278,8 +276,6 @@ GET :host/activities/
           "started": "2017-10-04T05:28:45.467884Z",
           "created": "2017-10-09T05:46:54.071279Z",
           "completed": "2017-10-04T05:28:45.467884Z",
-          "oven_start": "2017-10-04T05:28:45.467884Z",
-          "oven_end": "2017-10-04T05:28:45.467884Z"
         }
         ...
 
@@ -310,8 +306,6 @@ GET :host/recipes/:recipeId/activities/
           "started": "2017-10-04T05:28:45.467884Z",
           "created": "2017-10-24T05:33:02.639957Z",
           "completed": "2017-10-04T05:28:45.467884Z",
-          "oven_start": "2017-10-04T05:28:45.467884Z",
-          "oven_end": "2017-10-04T05:28:45.467884Z",
           "crumb_shot": "https://crumbproof-img.s3.amazonaws.com/media/images/51836251-db2.png",
           "notes": null
         },
@@ -328,8 +322,6 @@ POST :host/activities/
   "recipe" : 5,
   "started": "2017-10-04T05:28:45.467884Z",
   "completed": "2017-10-04T05:28:45.467884Z",
-  "oven_start": "2017-10-04T05:28:45.467884Z",
-  "oven_end": "2017-10-04T05:28:45.467884Z",
   "crumb_shot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII="
 }
 

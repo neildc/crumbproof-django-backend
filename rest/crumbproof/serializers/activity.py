@@ -19,8 +19,6 @@ class ActivitySerializer(serializers.ModelSerializer):
                  , 'started'
                  , 'created'
                  , 'completed'
-                 , 'oven_start'
-                 , 'oven_end'
                  , 'crumb_shot'
                  , 'notes'
                  )
@@ -41,8 +39,6 @@ class ActivityWithModifiedRecipeSerializer(serializers.ModelSerializer):
                  , 'started'
                  , 'created'
                  , 'completed'
-                 , 'oven_start'
-                 , 'oven_end'
                  , 'crumb_shot'
                  , 'notes'
                  )

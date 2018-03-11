@@ -29,8 +29,6 @@ class Activity(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     started = models.DateTimeField(null=True)
     completed = models.DateTimeField(null=True)
-    oven_start = models.DateTimeField(null=True)
-    oven_end = models.DateTimeField(null=True)
     notes = models.CharField(max_length=3000, null=True)
 
 
