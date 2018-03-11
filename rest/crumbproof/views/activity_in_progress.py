@@ -73,13 +73,6 @@ def liveActivityNextStep(request):
         }
     )
 
-def isLastInstruction(activity):
-    curr_step = activity.current_step
-    numInstructions = len(activity.recipe.data['instructions'])
-
-    return curr_step + 1 >= numInstructions
-
-
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
@@ -94,26 +87,10 @@ def liveActivityStartTimer(request):
     activity.save()
 
     if 'time_gap_to_next' in instruction:
-        # Round down to the minute
-        launch_time = time_now.replace(microsecond=0,second=0) \
-                      + timedelta(minutes=instruction['time_gap_to_next'])
-
-        if isLastInstruction(activity):
-            body = 'Final step is complete'
-        else:
-            next_instruction = getInstruction(activity, curr_step + 1)
-            body = 'Next step: ' + next_instruction['content']
-
-        data = {
-            'body': body,
-            'current_step' : curr_step,
-            'timestamp': str(launch_time)
-        }
-        push = ScheduledPushNotification(launch_time=launch_time,
-                                        user=request.user,
-                                        data=data)
-
-        push.save()
+        # Scheduling push notifications for users will no valid subscriptions
+        # breaks the dispatcher
+        if request.user.push_subscription:
+            schedulePushNotification(activity, instruction, request.user)
 
 
     return Response(
@@ -121,3 +98,31 @@ def liveActivityStartTimer(request):
             "start_times": {instruction_id : time_now},
         }
     )
+
+def schedulePushNotification(activity, currInstruction, user):
+    # Round down to the minute
+    launch_time = time_now.replace(microsecond=0,second=0) \
+                    + timedelta(minutes=currInstruction['time_gap_to_next'])
+
+    if isLastInstruction(activity):
+        body = 'Final step is complete'
+    else:
+        next_instruction = getInstruction(activity, curr_step + 1)
+        body = 'Next step: ' + next_instruction['content']
+
+    data = {
+        'body': body,
+        'current_step' : curr_step,
+        'timestamp': str(launch_time)
+    }
+    push = ScheduledPushNotification(launch_time=launch_time,
+                                    user=user,
+                                    data=data)
+
+    push.save()
+
+def isLastInstruction(activity):
+    curr_step = activity.current_step
+    numInstructions = len(activity.recipe.data['instructions'])
+
+    return curr_step + 1 >= numInstructions
