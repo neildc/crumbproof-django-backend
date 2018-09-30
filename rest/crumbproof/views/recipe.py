@@ -1,10 +1,15 @@
 from rest_framework import viewsets, generics
 from rest_framework import permissions
+from rest_framework import pagination
 from rest_framework.decorators import detail_route
 
 from crumbproof.models import Recipe, Activity, User
 from crumbproof.serializers import RecipeSerializer, ActivitySerializer
 from crumbproof.permissions import IsOwnerOrReadOnly
+
+class LargeResultsSetPagination(pagination.PageNumberPagination):
+    page_size = 1000
+
 
 class RecipeViewSet(viewsets.ModelViewSet):
     """
@@ -14,6 +19,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     serializer_class = RecipeSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
+    pagination_class = LargeResultsSetPagination
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
