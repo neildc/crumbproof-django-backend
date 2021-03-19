@@ -9,7 +9,7 @@ django-cors-headers==2.1.0
 django-extra-fields==0.9
 django-rest-auth==0.9.1
 django-storages==1.6.5
-djangorestframework==3.6.4
+djangorestframework==3.11.2
 docutils==0.14
 graphene==2.0
 graphene-django==2.0.0
